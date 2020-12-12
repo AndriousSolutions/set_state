@@ -1,3 +1,7 @@
+## [1.1.0]
+ December 12, 2020
+- New mixin StateBloc
+
 ## [1.0.1]
  December 12, 2020
 - Corrected pubspec.yaml version number

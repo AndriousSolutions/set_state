@@ -186,7 +186,7 @@ class _ThirdPageState extends SetState<_ThirdPage> {
     // Retrieve a specified State object.
     homeState = SetState.of<_MyHomePageState>();
     // Retrieve the very 'first' State object!
-    appState = SetState.first;
+    appState = SetState.root;
   }
   _SecondPageState secondState;
   _ThirdPageBloc bloc;
@@ -284,12 +284,8 @@ class _ThirdPageBloc extends _CounterBloc {
 }
 
 /// Made abstract to 'remind the developer' to supply a SetState object.
-abstract class _CounterBloc {
-  // Simply retrieve the 'most recent' State object.
+abstract class _CounterBloc with StateBloc{
   _CounterBloc();
-
-  // Supply the appropriate State object
-  SetState state;
 
   int _counter = 0;
 
@@ -300,10 +296,4 @@ abstract class _CounterBloc {
   void onPressed() => setState(() {
         _counter++;
       });
-
-  /// Call your State object.
-  void setState(fn) => state?.setState(fn);
-
-  /// Dispose of the State object reference in its dispose() function.
-  void dispose() => state = null;
 }

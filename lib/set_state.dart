@@ -44,14 +44,17 @@ abstract class SetState<T extends StatefulWidget> extends State<T>
   }
 
   /// Retrieve the SetState object by type
+  /// Returns null if not found
   static SetState of<T extends SetState>() => StateSet.of<T>();
 
   /// Retrieve the first SetState object.
-  static SetState get first => StateSet.first;
+  static SetState get root => StateSet.root;
 }
 
+
+
 mixin StateSet<T extends StatefulWidget> on State<T> {
-  /// Called the Stat object's protected funciton.
+  /// Called the Stat object's protected function.
   @override
   void setState(VoidCallback fn) => super.setState(fn);
 
@@ -72,13 +75,31 @@ mixin StateSet<T extends StatefulWidget> on State<T> {
   }
 
   /// Retrieve the StateSet object by type
+  /// Returns null if not found
   static StateSet of<T extends StateSet>() =>
       _setStates.isEmpty ? null : _setStates[_type<T>()];
 
   /// Retrieve the first StateSet object
-  static StateSet get first =>
+  static StateSet get root =>
       _setStates.isEmpty ? null : _setStates.values.first;
 
   /// Return the specified type from this function.
   static Type _type<T>() => T;
+}
+
+
+
+/// Implement so to serve as a Business Logic Component for a SetState object.
+mixin StateBloc {
+
+  // The Subclass should supply the appropriate State object
+  SetState state;
+
+  /// Call your State object.
+  void setState(fn) => state?.setState(fn);
+
+  /// Nullify its reference in the State object's own dispose() function.
+  /// Should clean up memory.
+  @mustCallSuper
+  void dispose() => state = null;
 }
