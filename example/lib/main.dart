@@ -14,6 +14,7 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
+/// Demonstrates how to explicitly 're-create' a State object
 class _MyAppState extends SetState<MyApp> {
   @override
   Widget build(BuildContext context) => MaterialApp(
@@ -42,13 +43,13 @@ class _MyHomePageState extends SetState<MyHomePage> {
   }
   _HomePageBloc bloc;
 
-  // Supply a means to access its bloc
+  /// Supply a means to access its bloc
   void onPressed() => bloc.onPressed();
 
   @override
   void dispose() {
     // You should clean up after yourself.
-//    bloc.dispose();
+    bloc.dispose();
     super.dispose();
   }
 
@@ -65,7 +66,7 @@ class _MyHomePageState extends SetState<MyHomePage> {
                 'You have pushed the button this many times:',
               ),
               Text(
-                '${bloc.counter}',
+                '${bloc.data}',
                 style: Theme.of(context).textTheme.headline4,
               ),
             ],
@@ -100,6 +101,7 @@ class _SecondPage extends StatefulWidget {
   State createState() => _SecondPageState();
 }
 
+
 class _SecondPageState extends SetState<_SecondPage> {
   // constructor
   _SecondPageState()
@@ -130,7 +132,7 @@ class _SecondPageState extends SetState<_SecondPage> {
               const Text("You're on the Second Page"),
               const Text('You have pushed the button this many times:'),
               Text(
-                '${bloc.counter}',
+                '${bloc.data}',
                 style: Theme.of(context).textTheme.headline4,
               ),
             ],
@@ -175,15 +177,16 @@ class _ThirdPage extends StatefulWidget {
   _ThirdPageState createState() => _ThirdPageState();
 }
 
+/// Demonstrates accessing the 'first' SetState object.
 class _ThirdPageState extends SetState<_ThirdPage> {
   _ThirdPageState()
       : secondState = SetState.of<_SecondPageState>(),
         super() {
     bloc = _ThirdPageBloc();
     // Retrieve a specified State object.
-    homeState = StateSet.of<_MyHomePageState>();
+    homeState = SetState.of<_MyHomePageState>();
     // Retrieve the very 'first' State object!
-    appState = StateSet.first;
+    appState = SetState.first;
   }
   _SecondPageState secondState;
   _ThirdPageBloc bloc;
@@ -208,7 +211,7 @@ class _ThirdPageState extends SetState<_ThirdPage> {
               const Text("You're on the Third page."),
               const Text('You have pushed the button this many times:'),
               Text(
-                '${bloc.counter}',
+                '${bloc.data}',
                 style: Theme.of(context).textTheme.headline4,
               ),
             ],
@@ -228,6 +231,14 @@ class _ThirdPageState extends SetState<_ThirdPage> {
             onPressed: secondState?.onPressed,
           ),
           RaisedButton(
+            child: const Text('Home Page New Key'),
+            onPressed: () {
+              appState?.setState(() {
+                _homeKey = UniqueKey();
+              });
+            },
+          ),
+          RaisedButton(
             child: const Text('Home Page'),
             onPressed: () {
               Navigator.popUntil(context, ModalRoute.withName('/'));
@@ -239,30 +250,27 @@ class _ThirdPageState extends SetState<_ThirdPage> {
               Navigator.pop(context);
             },
           ),
-          RaisedButton(
-            child: const Text('Home Page New Key'),
-            onPressed: () {
-              appState?.setState(() {
-                _homeKey = UniqueKey();
-              });
-            },
-          ),
         ],
       );
 }
 
+/// Explicit specify the type of State object to work with.
 class _HomePageBloc<T extends SetState> extends _CounterBloc {
   _HomePageBloc() : super() {
     state = SetState.of<T>();
   }
 }
 
+/// Retain a State object by knowing the type you're looking for.
 class _SecondPageBloc extends _CounterBloc {
   _SecondPageBloc(): super(){
     state = SetState.of<_SecondPageState>();
   }
 }
 
+/// Re-assign a possibly 'new' State object.
+/// The previous one may have been disposed.
+/// Note the factory constructor always the 'data' to be retained.
 class _ThirdPageBloc extends _CounterBloc {
   // Retain the count even after dispose!
   factory _ThirdPageBloc() {
@@ -275,6 +283,7 @@ class _ThirdPageBloc extends _CounterBloc {
   static _ThirdPageBloc _this;
 }
 
+/// Made abstract to 'remind the developer' to supply a SetState object.
 abstract class _CounterBloc {
   // Simply retrieve the 'most recent' State object.
   _CounterBloc();
@@ -284,12 +293,15 @@ abstract class _CounterBloc {
 
   int _counter = 0;
 
-  int get counter => _counter;
+  /// Getter to safely access the data.
+  int get data => _counter;
 
+  /// The generic function (Flutter API) called to manipulate the data.
   void onPressed() => setState(() {
         _counter++;
       });
 
+  /// Call your State object.
   void setState(fn) => state?.setState(fn);
 
   /// Dispose of the State object reference in its dispose() function.

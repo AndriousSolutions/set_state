@@ -1,3 +1,10 @@
+## [1.0.1]
+ December 12, 2020
+- Corrected pubspec.yaml version number
+- Corrected the _removeFromStates() function
+- Supply documentation
+
 ## [1.0.0]
  December 11, 2020
 - Initial commit and release
+

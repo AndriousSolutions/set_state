@@ -28,7 +28,7 @@ abstract class SetState<T extends StatefulWidget> extends State<T>
     with StateSet {
   //
   SetState() : super() {
-    // Stored this object in a static 'States' map
+    // Stored this object in a static map
     _addToStates();
   }
 
@@ -36,49 +36,49 @@ abstract class SetState<T extends StatefulWidget> extends State<T>
   @override
   T get widget => super.widget;
 
-  /// Retrieve an existing SetState by type.
-  /// Note There can't be more than one of the same type.
-  /// IMPORTANT to extend StateSet instead.
-  // static SetState of<T extends SetState>() =>
-  //     T == SetState && StateSet._setStates.isNotEmpty
-  //         ? StateSet._setStates.values.last
-  //         : StateSet.of<T>();
-  static SetState of<T extends SetState>() =>
-      StateSet._setStates.isEmpty ? null : StateSet.of<T>();
-
-  /// The first State object
-  static SetState get first => StateSet.first;
-
-  @override
-  void didUpdateWidget(covariant T oldWidget) {
-    super.didUpdateWidget(oldWidget);
-  }
-
   /// Remove this object from the 'States' map.
   @override
   void dispose() {
     _removeFromStates();
     super.dispose();
   }
+
+  /// Retrieve the SetState object by type
+  static SetState of<T extends SetState>() => StateSet.of<T>();
+
+  /// Retrieve the first SetState object.
+  static SetState get first => StateSet.first;
 }
 
 mixin StateSet<T extends StatefulWidget> on State<T> {
-  //
+  /// Called the Stat object's protected funciton.
   @override
   void setState(VoidCallback fn) => super.setState(fn);
 
-  void _addToStates() => _setStates.addAll({runtimeType: this});
-
-  bool _removeFromStates() => _setStates.remove(runtimeType) != null;
-
+  /// The static map of StateSet objects.
   static final Map<Type, StateSet> _setStates = {};
 
-  // If no type annotation specified, retrieve the last (most recent) State object.
+  /// Add this object to the static map
+  void _addToStates() => _setStates.addAll({runtimeType: this});
+
+  /// Remove this object from the static Map if not already removed.
+  bool _removeFromStates() {
+    // Sometimes a new State object was already created before the old one was disposed.
+    var remove = _setStates[runtimeType] == this;
+    if (remove) {
+      remove = _setStates.remove(runtimeType) != null;
+    }
+    return remove;
+  }
+
+  /// Retrieve the StateSet object by type
   static StateSet of<T extends StateSet>() =>
       _setStates.isEmpty ? null : _setStates[_type<T>()];
 
+  /// Retrieve the first StateSet object
   static StateSet get first =>
       _setStates.isEmpty ? null : _setStates.values.first;
 
+  /// Return the specified type from this function.
   static Type _type<T>() => T;
 }
