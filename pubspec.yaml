@@ -1,7 +1,7 @@
 name: set_state
 description: A subclass of the State object placed in a static collection.
 
-version: 1.1.0+2
+version: 1.1.0+3
 
 homepage: https://github.com/AndriousSolutions/set_state
 repository: https://github.com/AndriousSolutions/set_state

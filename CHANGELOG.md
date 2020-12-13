@@ -1,3 +1,7 @@
+## [1.1.0+3]
+ December 13, 2020
+- Modified the set_state_test.dart file
+
 ## [1.1.0+2]
  December 13, 2020
 - Update the README.md file
