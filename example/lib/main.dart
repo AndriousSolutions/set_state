@@ -24,8 +24,6 @@ class _MyAppState extends SetState<MyApp> {
         ),
         home: MyHomePage(key: _homeKey),
       );
-
-
 }
 
 class MyHomePage extends StatefulWidget {
@@ -100,7 +98,6 @@ class _SecondPage extends StatefulWidget {
   @override
   State createState() => _SecondPageState();
 }
-
 
 class _SecondPageState extends SetState<_SecondPage> {
   // constructor
@@ -263,7 +260,7 @@ class _HomePageBloc<T extends SetState> extends _CounterBloc {
 
 /// Retain a State object by knowing the type you're looking for.
 class _SecondPageBloc extends _CounterBloc {
-  _SecondPageBloc(): super(){
+  _SecondPageBloc() : super() {
     state = SetState.of<_SecondPageState>();
   }
 }
@@ -284,7 +281,7 @@ class _ThirdPageBloc extends _CounterBloc {
 }
 
 /// Made abstract to 'remind the developer' to supply a SetState object.
-abstract class _CounterBloc with StateBloc{
+abstract class _CounterBloc with StateBloc {
   _CounterBloc();
 
   int _counter = 0;

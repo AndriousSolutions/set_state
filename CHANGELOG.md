@@ -1,3 +1,7 @@
+## [1.1.0+2]
+ December 13, 2020
+- Update the README.md file
+
 ## [1.1.0]
  December 12, 2020
 - New mixin StateBloc

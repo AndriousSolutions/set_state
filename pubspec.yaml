@@ -1,12 +1,14 @@
 name: set_state
-description: Simple extension of the State class
-version: 1.1.0
-author: Greg Perry
-homepage: andrioussolutions.com
+description: A subclass of the State object placed in a static collection.
+
+version: 1.1.0+2
+
+homepage: https://github.com/AndriousSolutions/set_state
+repository: https://github.com/AndriousSolutions/set_state
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
-  flutter: ">=1.17.0"
+  sdk: ">=2.10.0 <3.0.0"
+#  flutter: ">=1.17.0"
 
 dependencies:
   flutter:

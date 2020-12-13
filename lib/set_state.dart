@@ -92,7 +92,7 @@ mixin StateSet<T extends StatefulWidget> on State<T> {
 /// Implement so to serve as a Business Logic Component for a SetState object.
 mixin StateBloc {
 
-  // The Subclass should supply the appropriate State object
+  /// The Subclass should supply the appropriate SetState object
   SetState state;
 
   /// Call your State object.
