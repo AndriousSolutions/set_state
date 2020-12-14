@@ -253,37 +253,98 @@ class _ThirdPageState extends SetState<_ThirdPage> {
 
 /// Explicit specify the type of State object to work with.
 class _HomePageBloc<T extends SetState> extends _CounterBloc {
-  _HomePageBloc() : super() {
+  // 1)
+  _HomePageBloc() {
     state = SetState.of<T>();
   }
+
+// // 2)
+// _HomePageBloc() : super() {
+//   state = SetState.of<_HomePageBloc>();
+// }
+
+//  // 3 )
+// factory _HomePageBloc() {
+//   _this ??= _HomePageBloc._();
+//   // Assign the 'new' State object.
+//   _this.state = SetState.of<T>();
+//   return _this;
+// }
+// _HomePageBloc._();
+// static _HomePageBloc _this;
+
+//  // 4)
+// /// POWERFUL: You can override the instance field with a getter.
+// /// As a getter, you don't have to instantiate until needed (and available).
+// @override
+//  SetState get state => _state ??= SetState.of<T>();
+// SetState _state;
+}
+
+//class _SecondPageBloc<T extends SetState> extends _CounterBloc {
+class _SecondPageBloc extends _CounterBloc {
+  // // 1)
+  // _SecondPageBloc() {
+  //   state = SetState.of<T>();
+  // }
+
+  // // 2)
+  // _SecondPageBloc() {
+  //   state = SetState.of<_SecondPageState>();
+  // }
+
+  // 3 )
+  // Retain the count even after its State is disposed!
+  factory _SecondPageBloc() {
+    _this ??= _SecondPageBloc._();
+    // Assign the 'new' State object.
+    _this.state = SetState.of<_SecondPageState>();
+    return _this;
+  }
+  _SecondPageBloc._();
+  static _SecondPageBloc _this;
+
+//  // 4)
+// /// POWERFUL: You can override the instance field with a getter.
+// /// As a getter, you don't have to instantiate until needed (and available).
+// @override
+//  SetState get state => _state ??= SetState.of<T>();
+// SetState _state;
 }
 
 /// Retain a State object by knowing the type you're looking for.
-class _SecondPageBloc extends _CounterBloc {
-  _SecondPageBloc() : super() {
-    state = SetState.of<_SecondPageState>();
-  }
-}
-
-/// Re-assign a possibly 'new' State object.
-/// The previous one may have been disposed.
-/// Note the factory constructor always the 'data' to be retained.
 class _ThirdPageBloc extends _CounterBloc {
-  // Retain the count even after dispose!
-  factory _ThirdPageBloc() {
-    _this ??= _ThirdPageBloc._();
-    // Assign the 'new' third State object.
-    _this.state = SetState.of<_ThirdPageState>();
-    return _this;
-  }
-  _ThirdPageBloc._();
-  static _ThirdPageBloc _this;
+  // // 1)
+  // _ThirdPageBloc() {
+  //   state = SetState.of<T>();
+  // }
+
+  // // 2)
+  // _ThirdPageBloc() {
+  //   state = SetState.of<_ThirdPageBloc>();
+  // }
+
+  //  // 3 )
+  // factory _ThirdPageBloc() {
+  //   _this ??= _ThirdPageBloc._();
+  //   // Assign the 'new' State object.
+  //   _this.state = SetState.of<_ThirdPageState>();
+  //   return _this;
+  // }
+  // _ThirdPageBloc._();
+  // static _ThirdPageBloc _this;
+
+  // 4)
+  /// POWERFUL: You can override the field with a getter.
+  /// As a getter, you don't have to instantiate until needed (and available).
+  @override
+  SetState get state => _state ??= SetState.of<_ThirdPageState>();
+  SetState _state;
 }
 
 /// Made abstract to 'remind the developer' to supply a SetState object.
 abstract class _CounterBloc with StateBloc {
-  _CounterBloc();
-
+  /// The 'data' is a lone integer.
   int _counter = 0;
 
   /// Getter to safely access the data.

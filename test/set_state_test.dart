@@ -7,6 +7,5 @@ import '../example/lib/main.dart';
 void main() {
   test('adds one to input values', () {
     final counter = MyApp();
-
   });
 }

@@ -51,8 +51,6 @@ abstract class SetState<T extends StatefulWidget> extends State<T>
   static SetState get root => StateSet.root;
 }
 
-
-
 mixin StateSet<T extends StatefulWidget> on State<T> {
   /// Called the Stat object's protected function.
   @override
@@ -87,11 +85,8 @@ mixin StateSet<T extends StatefulWidget> on State<T> {
   static Type _type<T>() => T;
 }
 
-
-
 /// Implement so to serve as a Business Logic Component for a SetState object.
 mixin StateBloc {
-
   /// The Subclass should supply the appropriate SetState object
   SetState state;
 

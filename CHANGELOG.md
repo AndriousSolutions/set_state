@@ -1,3 +1,8 @@
+## [1.1.0+4]
+ December 14, 2020
+- Override instance field with getter in example
+- Improved example code
+
 ## [1.1.0+3]
  December 13, 2020
 - Modified the set_state_test.dart file
