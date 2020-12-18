@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:set_state/set_state.dart';
 
-/// High-level variable. Identifies the widget. New key? New widget!
-Key _homeKey = UniqueKey();
-
 void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
@@ -16,6 +13,13 @@ class MyApp extends StatefulWidget {
 
 /// Demonstrates how to explicitly 're-create' a State object
 class _MyAppState extends SetState<MyApp> {
+  /// Key identifies the widget. New key? New widget!
+  Key _homeKey = UniqueKey();
+
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) => MaterialApp(
         title: 'Flutter Demo',
@@ -24,6 +28,11 @@ class _MyAppState extends SetState<MyApp> {
         ),
         home: MyHomePage(key: _homeKey),
       );
+
+  void setState(VoidCallback fn) {
+    _homeKey = UniqueKey();
+    super.setState(fn);
+  }
 }
 
 class MyHomePage extends StatefulWidget {
@@ -188,7 +197,7 @@ class _ThirdPageState extends SetState<_ThirdPage> {
   _SecondPageState secondState;
   _ThirdPageBloc bloc;
   _MyHomePageState homeState;
-  State appState;
+  _MyAppState appState;
 
   @override
   void dispose() {
@@ -230,9 +239,7 @@ class _ThirdPageState extends SetState<_ThirdPage> {
           RaisedButton(
             child: const Text('Home Page New Key'),
             onPressed: () {
-              appState?.setState(() {
-                _homeKey = UniqueKey();
-              });
+              appState?.setState(() {});
             },
           ),
           RaisedButton(
@@ -277,7 +284,12 @@ class _HomePageBloc<T extends SetState> extends _CounterBloc {
 // /// POWERFUL: You can override the instance field with a getter.
 // /// As a getter, you don't have to instantiate until needed (and available).
 // @override
-//  SetState get state => _state ??= SetState.of<T>();
+//  SetState get state {
+//   if(_state == null){
+//      _state ??= SetState.of<T>();
+//   }
+//   return _state;
+//   }
 // SetState _state;
 }
 

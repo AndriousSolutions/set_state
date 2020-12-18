@@ -1,3 +1,7 @@
+## [1.1.0+5]
+ December 18, 2020
+- UniqueKey() in setState() function
+
 ## [1.1.0+4]
  December 14, 2020
 - Override instance field with getter in example
