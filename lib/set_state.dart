@@ -27,7 +27,7 @@ import 'package:flutter/material.dart';
 abstract class SetState<T extends StatefulWidget> extends State<T>
     with StateSet {
   //
-  SetState([StateBloc bloc]) : super() {
+  SetState() : super() {
     // Stored this object in a static map
     _addToStates();
   }

@@ -1,3 +1,8 @@
+## [2.1.0]
+ December 20, 2020
+- onPressed() function in _ThirdPageState
+- SetState appState;
+
 ## [2.0.0]
  December 20, 2020
 - Remove mixin BlocState

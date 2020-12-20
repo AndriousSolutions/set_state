@@ -187,7 +187,9 @@ class _ThirdPage extends StatefulWidget {
 class _ThirdPageState extends SetState<_ThirdPage> {
   _ThirdPageState()
       : secondState = SetState.of<_SecondPageState>(),
-        super(_ThirdPageBloc()) {
+        super() {
+    // The corresponding Bloc
+    bloc = _ThirdPageBloc();
     // Retrieve a specified State object.
     homeState = SetState.of<_MyHomePageState>();
     // Retrieve the very 'first' State object!
@@ -196,7 +198,7 @@ class _ThirdPageState extends SetState<_ThirdPage> {
   _SecondPageState secondState;
   _ThirdPageBloc bloc;
   _MyHomePageState homeState;
-  _MyAppState appState;
+  SetState appState;
 
   @override
   void dispose() {
@@ -205,6 +207,9 @@ class _ThirdPageState extends SetState<_ThirdPage> {
     homeState = null;
     super.dispose();
   }
+
+  // Supply a means to externally access this State objects functionality.
+  void onPressed() => bloc.onPressed();
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -222,7 +227,7 @@ class _ThirdPageState extends SetState<_ThirdPage> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: bloc.onPressed,
+          onPressed: onPressed,
           child: Icon(Icons.add),
         ),
         persistentFooterButtons: <Widget>[
