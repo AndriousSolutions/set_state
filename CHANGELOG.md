@@ -1,3 +1,7 @@
+## [2.0.0]
+ December 20, 2020
+- Remove mixin BlocState
+
 ## [1.2.0]
  December 20, 2020
 - mixin BlocState

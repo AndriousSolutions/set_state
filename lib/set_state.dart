@@ -25,10 +25,9 @@ import 'package:flutter/material.dart';
 /// without a warning message.
 /// Also to store this object in a static 'States' map.
 abstract class SetState<T extends StatefulWidget> extends State<T>
-    with BlocState, StateSet {
+    with StateSet {
   //
   SetState([StateBloc bloc]) : super() {
-    addBloc(bloc);
     // Stored this object in a static map
     _addToStates();
   }
@@ -40,7 +39,6 @@ abstract class SetState<T extends StatefulWidget> extends State<T>
   /// Remove this object from the 'States' map.
   @override
   void dispose() {
-    clearBlocs();
     _removeFromStates();
     super.dispose();
   }
@@ -100,72 +98,4 @@ mixin StateBloc {
   /// Should clean up memory.
   @mustCallSuper
   void dispose() => state = null;
-}
-
-/// State object introduces a Bloc instance field
-mixin BlocState {
-  /// The map of bloc objects.
-  final Map<Type, StateBloc> _blocs = {};
-
-  Iterable<MapEntry<Type, StateBloc>> get entries => _blocs.entries;
-
-  Iterator get iterator => entries.iterator;
-
-  int get length => _blocs.length;
-
-  bool get isEmpty => _blocs.isEmpty;
-
-  bool get isNotEmpty => !isEmpty;
-
-  /// The first Bloc in the collection.
-  MapEntry<Type, StateBloc> get first {
-    if (entries.isEmpty) {
-      return null;
-    }
-    return entries.first;
-  }
-
-  /// The most recent Bloc added to the collection.
-  MapEntry<Type, StateBloc> get last {
-    if (entries.isEmpty) {
-      return null;
-    }
-    return entries.last;
-  }
-
-  /// Supply the corresponding 'Bloc' counterpart.
-  StateBloc get bloc {
-    final element = first;
-    if (element == null) {
-      return null;
-    }
-    return element.value;
-  }
-
-  /// Retrieve the StateSet object by type
-  /// Returns null if not found
-  StateBloc blocOf<T extends StateBloc>() =>
-      _blocs.isEmpty ? null : _blocs[_type<T>()];
-
-  /// Return the specified type from this function.
-  Type _type<T>() => T;
-
-  /// Add this object to the static map
-  void addBloc(StateBloc bloc) {
-    if (bloc != null) {
-      _blocs.addAll({bloc.runtimeType: bloc});
-    }
-  }
-
-  /// Remove this object from the static Map if not already removed.
-  bool removeBloc(StateBloc bloc) => _blocs.remove(bloc.runtimeType) != null;
-
-  /// Remove this object from the 'Blocs' map.
-  void clearBlocs() => _blocs.clear();
-
-  void disposeBlocs() {
-    entries.forEach((map) {
-      map.value.dispose();
-    });
-  }
 }
