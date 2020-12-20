@@ -1,3 +1,7 @@
+## [1.2.0]
+ December 20, 2020
+- mixin BlocState
+
 ## [1.1.0+5]
  December 18, 2020
 - UniqueKey() in setState() function

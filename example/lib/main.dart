@@ -187,8 +187,7 @@ class _ThirdPage extends StatefulWidget {
 class _ThirdPageState extends SetState<_ThirdPage> {
   _ThirdPageState()
       : secondState = SetState.of<_SecondPageState>(),
-        super() {
-    bloc = _ThirdPageBloc();
+        super(_ThirdPageBloc()) {
     // Retrieve a specified State object.
     homeState = SetState.of<_MyHomePageState>();
     // Retrieve the very 'first' State object!
@@ -203,7 +202,6 @@ class _ThirdPageState extends SetState<_ThirdPage> {
   void dispose() {
     // You should clean up after yourself.
     secondState = null;
-    bloc.dispose();
     homeState = null;
     super.dispose();
   }
