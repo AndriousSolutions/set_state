@@ -1,44 +1,48 @@
-## [2.1.0]
+## 2.1.1
+ December 21, 2020
+- Updated README.md
+
+## 2.1.0
  December 20, 2020
 - onPressed() function in _ThirdPageState
 - SetState appState;
 
-## [2.0.0]
+## 2.0.0
  December 20, 2020
 - Remove mixin BlocState
 
-## [1.2.0]
+## 1.2.0
  December 20, 2020
 - mixin BlocState
 
-## [1.1.0+5]
+## 1.1.0+5
  December 18, 2020
 - UniqueKey() in setState() function
 
-## [1.1.0+4]
+## 1.1.0+4
  December 14, 2020
 - Override instance field with getter in example
 - Improved example code
 
-## [1.1.0+3]
+## 1.1.0+3
  December 13, 2020
 - Modified the set_state_test.dart file
 
-## [1.1.0+2]
+## 1.1.0+2
  December 13, 2020
 - Update the README.md file
 
-## [1.1.0]
+## 1.1.0
  December 12, 2020
 - New mixin StateBloc
 
-## [1.0.1]
+## 1.0.1
  December 12, 2020
 - Corrected pubspec.yaml version number
 - Corrected the _removeFromStates() function
 - Supply documentation
 
-## [1.0.0]
+## 1.0.0
  December 11, 2020
 - Initial commit and release
 
