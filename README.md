@@ -31,12 +31,10 @@ I'll use well-established examples to demonstrate the this package. We'll use th
 You'll find a good computer application, in most instances, divides ‘the interface’ from everything else that makes up your app. Doing this alone makes for better progress during development and better scalability and maintenance down the road. When it comes to Flutter apps, there’s one common trait found in adaptive apps — the access to particular State objects. More specifically, access to their ever-important setState() function.
 
 Below, listed with the first half of the example app we’re using today, is a gif file demonstrating the functionality of that example app. Note, there’s not one, not two, but three State objects (Flutter pages) that make up this example app. In fact, there are four State objects in all — you’ll see that soon enough. Regardless, there are four ‘states’ being retained and managed. This an attempt to convey a typical Flutter app in the guise of a very simple example app, and so it’s a counter app with three counters. Their pages come one after the other. While running, you can go up and down the routing stack. The app is demonstrating the ‘state management’ involved.
-<table style="width:100%">
-  <tr>
-    <td>![main](https://user-images.githubusercontent.com/32497443/102795641-b2cc5380-4372-11eb-8768-ccdb17caea92.jpg)</td>
-    <td>![Counter App](https://user-images.githubusercontent.com/32497443/102795074-e78bdb00-4371-11eb-9c5c-39bf1b62035c.gif)</td>
-  </tr>
-</table>
+|  |  |
+| --- | --- |
+| ![main](https://user-images.githubusercontent.com/32497443/102795641-b2cc5380-4372-11eb-8768-ccdb17caea92.jpg) | ![Counter App](https://user-images.githubusercontent.com/32497443/102795074-e78bdb00-4371-11eb-9c5c-39bf1b62035c.gif) |
+
 ## The Classic State
 In the gif above, you see we're going up through the three pages incrementing their individual counters along the way. There's a number of buttons offered so to navigate up and down the routing stack. As anticipated, returning back down the pages then up again, the counter on the third page is reset to zero. This makes sense. The app had retreated back down the routing stack, and the State object retaining the counter (the state) on the third page was terminated (its dispose() function called). Perfectly normal. However, notice the second page is keeping its counter value?? How is it doing that?!
 
@@ -84,12 +82,9 @@ That parent class, *_CounterBloc*, has now been changed---focusing truly now on 
 ## Navigating The State
 Looking at the third page in the routing stack, we see it presents to the user five buttons. The first three buttons literally affect 'the state' in three separate regions in the app. The first button calls upon a provided Bloc object to respond to the event of incrementing that page's counter. The next three buttons involve the State objects from 'previously visited' areas of the app. Each is responsible for retaining their own state. Note, the names of the VoidCallback functions of the State objects, *homeState*, and *secondState*: onPressed. Should the fourth and last State object also have such a function?
 
-<table style="width:100%">
-  <tr>
-    <td>![floatingButton](https://user-images.githubusercontent.com/32497443/102807964-3b53ef80-4385-11eb-9f8d-92f18af98e6d.jpg)</td>
-    <td>![PageThree](https://user-images.githubusercontent.com/32497443/102808169-8968f300-4385-11eb-8f18-c6af5434355d.jpg)</td>
-  </tr>
-</table>
+|  |  |
+| --- | --- |
+|![floatingButton](https://user-images.githubusercontent.com/32497443/102807964-3b53ef80-4385-11eb-9f8d-92f18af98e6d.jpg) |![PageThree](https://user-images.githubusercontent.com/32497443/102808169-8968f300-4385-11eb-8f18-c6af5434355d.jpg) |
 
 ## Attain Your State
 Our last look at the third-page State object highlights the four approaches taken to supply the event handling and business logic, as it were, onto this last page. Most of them involve a static function from, in fact, the StateSet mixin.
@@ -109,12 +104,9 @@ Let's look at the two screenshots below. The screenshot on the left-hand side be
 
 Calling the setState() function from the State object, appStat---the fourth State object I spoke of, with its the StatefulWidget, _MyApp, being passed to the runApp() function, will cause its build() function to fire again. This means the named parameter, home, receives a StatefulWidget with a brand new key. In turn, this means that the StatefulWidget's createState() function is fired again and a new State object is created. One that calls its initState() and build() functions again.
 
-<table style="width:100%">
-  <tr>
-    <td>![HomePageCounter](https://user-images.githubusercontent.com/32497443/102808953-c8e40f00-4386-11eb-96a1-575debd648b5.jpg)</td>
-    <td>![MyAppState](https://user-images.githubusercontent.com/32497443/102809032-ed3feb80-4386-11eb-996a-6e8fe9153b91.jpg)</td>
-  </tr>
-</table>
+|  |  |
+| --- | --- |
+| ![HomePageCounter](https://user-images.githubusercontent.com/32497443/102808953-c8e40f00-4386-11eb-96a1-575debd648b5.jpg) | ![MyAppState](https://user-images.githubusercontent.com/32497443/102809032-ed3feb80-4386-11eb-996a-6e8fe9153b91.jpg) |
 
 ## Set Your State
 Let's finally take a look at the class, SetState, replacing the traditional State objects in the app. Being abstract, of course, you have to implement its **build**() function, but you still have access to the usual and useful properties found in a State object: mounted, context, and widget. You can see in the screenshot below, this State object adds itself to the collection of State objects used by your app. It removes itself from that collection when it itself terminates. Finally, as you see below, it has its ever-important static function, **of**. You're familiar with such functions in Flutter: Theme.of(), and Scaffold.of().
