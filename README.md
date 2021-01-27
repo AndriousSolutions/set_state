@@ -14,7 +14,7 @@ Instead, always go up to the '**major**' semantic version number when installing
 And so, add this to your pubspec.yaml file instead:
 ```javascript
 dependencies:
-  set_state:^1.0.0
+  set_state:^2.0.0
 ```
 For more information on this topic, read the article, [The importance of semantic versioning](https://medium.com/@xabaras/the-importance-of-semantic-versioning-9b78e8e59bba).
 

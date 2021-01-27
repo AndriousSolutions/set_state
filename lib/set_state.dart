@@ -52,7 +52,7 @@ abstract class SetState<T extends StatefulWidget> extends State<T>
 }
 
 mixin StateSet<T extends StatefulWidget> on State<T> {
-  /// Called the Stat object's protected function.
+  /// Called the State object's protected function.
   @override
   void setState(VoidCallback fn) => super.setState(fn);
 

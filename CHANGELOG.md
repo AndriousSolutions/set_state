@@ -1,3 +1,7 @@
+## 2.1.1+3
+ January 26, 2021
+- Corrected documentation
+
 ## 2.1.1+2
  December 21, 2020
 - Updated README.md
