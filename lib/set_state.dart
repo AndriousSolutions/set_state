@@ -49,6 +49,10 @@ abstract class SetState<T extends StatefulWidget> extends State<T>
 
   /// Retrieve the first SetState object.
   static SetState get root => StateSet.root;
+
+  /// Retrieve the latest context (i.e. the last State object's context)
+  static BuildContext get lastContext => StateSet.lastContext;
+
 }
 
 mixin StateSet<T extends StatefulWidget> on State<T> {
@@ -81,6 +85,10 @@ mixin StateSet<T extends StatefulWidget> on State<T> {
   /// Retrieve the first StateSet object
   static StateSet get root =>
       _setStates.isEmpty ? null : _setStates.values.first;
+
+  /// Retrieve the latest context (i.e. the last State object's context)
+  static BuildContext get lastContext =>
+      _setStates.isEmpty ? null : _setStates.values.last.context;
 
   /// Return the specified type from this function.
   static Type _type<T>() => T;
