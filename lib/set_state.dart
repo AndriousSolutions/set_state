@@ -52,7 +52,6 @@ abstract class SetState<T extends StatefulWidget> extends State<T>
 
   /// Retrieve the latest context (i.e. the last State object's context)
   static BuildContext get lastContext => StateSet.lastContext;
-
 }
 
 mixin StateSet<T extends StatefulWidget> on State<T> {

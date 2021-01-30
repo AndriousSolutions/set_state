@@ -1,6 +1,7 @@
-## 2.2.0
+## 2.2.0+2
  January 29, 2021
 - New static getter, lastContext. To bring in latest BuildContext object.
+- dartfmt -w
 
 ## 2.1.1+3
  January 26, 2021
