@@ -5,26 +5,31 @@ import 'package:set_state/set_state.dart';
 import 'package:example/src/1/home_page.dart';
 
 import 'package:example/src/2/second_bloc.dart';
+import 'package:example/src/my_bloc.dart';
 
 import 'package:example/src/3/third_page.dart';
 
 /// The second page displayed in this app.
 class SecondPage extends StatefulWidget {
-  SecondPage({Key key})
-      : _state = _SecondPageState(),
-        super(key: key);
-  final _SecondPageState _state;
+  factory SecondPage({Key key}) => _this ??= SecondPage._(key: key);
+  SecondPage._({Key key}) : super(key: key);
+  static SecondPage _this;
 
   @override
-  State createState() => _state;
+  State createState() => _SecondPageState();
 
   // Supply a means to access its bloc
-  void onPressed() => _state.onPressed();
+  void onPressed() {
+    final _SecondPageState state = SetState.to<_SecondPageState>();
+    state.onPressed();
+  }
 }
 
 class _SecondPageState extends SetState<SecondPage> {
   _SecondPageState() : super() {
-    bloc = SecondPageBloc();
+    /// This 'local' can use the factory constructor but not in a  separate Dart file??
+    // bloc = LocalSecondPageBloc<_SecondPageState>();
+    bloc = SecondPageBloc<_SecondPageState>();
   }
   SecondPageBloc bloc;
   MyHomePage home;
@@ -91,4 +96,36 @@ class _SecondPageState extends SetState<SecondPage> {
           ),
         ],
       );
+}
+
+/// This seems to reliably works every time.
+class LocalSecondPageBloc extends CounterBloc {
+  // // 1)
+  // LocalSecondPageBloc() {
+  //   state = SetState.to<T>();
+  // }
+
+  // // 2)
+  // // With a factory, retains the count even after its State is disposed!
+  // factory LocalSecondPageBloc() => _this ??= SecondPageBloc._();
+  // LocalSecondPageBloc._();
+  // static LocalSecondPageBloc _this;
+
+  // 3 )
+  // Retain the count even after its State is disposed!
+  factory LocalSecondPageBloc() {
+    _this ??= LocalSecondPageBloc._();
+    // Assign the 'new' State object.
+    _this.state = SetState.to<_SecondPageState>();
+    return _this;
+  }
+  LocalSecondPageBloc._();
+  static LocalSecondPageBloc _this;
+
+//  // 4)
+// /// POWERFUL: You can override the instance field with a getter.
+// /// As a getter, you don't have to instantiate until needed (and available).
+//   @override
+//   SetState get state => _state ??= SetState.to<T>();
+//   SetState _state;
 }

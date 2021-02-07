@@ -9,7 +9,9 @@ import 'package:example/src/2/second_page.dart';
 import 'package:example/src/3/third_bloc.dart';
 
 class ThirdPage extends StatefulWidget {
-  ThirdPage({Key key}) : super(key: key);
+  factory ThirdPage({Key key}) => _this ??= ThirdPage._(key: key);
+  ThirdPage._({Key key}) : super(key: key);
+  static ThirdPage _this;
 
   @override
   _ThirdPageState createState() => _ThirdPageState();

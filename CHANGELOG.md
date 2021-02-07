@@ -1,3 +1,8 @@
+## 3.0.1
+ February 06, 2021
+- SetState.to<_SecondPageState>(); in onPressed()
+- SecondPageBloc<T extends SetState> doesn't work with factory constructor.
+
 ## 3.0.0
  February 06, 2021
 - New functionality: to<T extends SetState>
