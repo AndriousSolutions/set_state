@@ -1,3 +1,8 @@
+## 3.0.0
+ February 06, 2021
+- New functionality: to<T extends SetState>
+- Changed function:  of<T extends StatefulWidget>
+
 ## 2.2.0+2
  January 29, 2021
 - New static getter, lastContext. To bring in latest BuildContext object.

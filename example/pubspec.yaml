@@ -24,7 +24,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  set_state: #^1.0.0
+  set_state: #^2.0.0
     path: ../../set_state
 
   # The following adds the Cupertino Icons font to your application.
