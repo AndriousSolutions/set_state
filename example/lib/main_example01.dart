@@ -22,12 +22,12 @@ class _MyAppState extends SetState<MyApp> {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-    title: 'Flutter Demo',
-    theme: ThemeData(
-      primarySwatch: Colors.blue,
-    ),
-    home: MyHomePage(key: _homeKey),
-  );
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: MyHomePage(key: _homeKey),
+      );
 
   void setState(VoidCallback fn) {
     _homeKey = UniqueKey();
@@ -62,41 +62,41 @@ class _MyHomePageState extends SetState<MyHomePage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(
-      title: const Text('Home Page'),
-    ),
-    body: Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          const Text(
-            'You have pushed the button this many times:',
+        appBar: AppBar(
+          title: const Text('Home Page'),
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const Text(
+                'You have pushed the button this many times:',
+              ),
+              Text(
+                '${bloc.data}',
+                style: Theme.of(context).textTheme.headline4,
+              ),
+            ],
           ),
-          Text(
-            '${bloc.data}',
-            style: Theme.of(context).textTheme.headline4,
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: onPressed,
+          child: Icon(Icons.add),
+        ),
+        persistentFooterButtons: <Widget>[
+          RaisedButton(
+            child: const Text(
+              'Second Page',
+            ),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => _SecondPage()));
+            },
           ),
         ],
-      ),
-    ),
-    floatingActionButton: FloatingActionButton(
-      onPressed: onPressed,
-      child: Icon(Icons.add),
-    ),
-    persistentFooterButtons: <Widget>[
-      RaisedButton(
-        child: const Text(
-          'Second Page',
-        ),
-        onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (BuildContext context) => _SecondPage()));
-        },
-      ),
-    ],
-  );
+      );
 }
 
 /// The second page displayed in this app.
@@ -131,49 +131,49 @@ class _SecondPageState extends SetState<_SecondPage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    body: Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          const Text("You're on the Second Page"),
-          const Text('You have pushed the button this many times:'),
-          Text(
-            '${bloc.data}',
-            style: Theme.of(context).textTheme.headline4,
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const Text("You're on the Second Page"),
+              const Text('You have pushed the button this many times:'),
+              Text(
+                '${bloc.data}',
+                style: Theme.of(context).textTheme.headline4,
+              ),
+            ],
+          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: bloc.onPressed,
+          child: Icon(Icons.add),
+        ),
+        persistentFooterButtons: <Widget>[
+          RaisedButton(
+            child: const Text('Home Page Counter'),
+            onPressed: homeState?.onPressed,
+          ),
+          RaisedButton(
+            child: const Text(
+              'Home Page',
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          RaisedButton(
+            child: const Text(
+              'Third Page',
+            ),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => _ThirdPage()));
+            },
           ),
         ],
-      ),
-    ),
-    floatingActionButton: FloatingActionButton(
-      onPressed: bloc.onPressed,
-      child: Icon(Icons.add),
-    ),
-    persistentFooterButtons: <Widget>[
-      RaisedButton(
-        child: const Text('Home Page Counter'),
-        onPressed: homeState?.onPressed,
-      ),
-      RaisedButton(
-        child: const Text(
-          'Home Page',
-        ),
-        onPressed: () {
-          Navigator.pop(context);
-        },
-      ),
-      RaisedButton(
-        child: const Text(
-          'Third Page',
-        ),
-        onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (BuildContext context) => _ThirdPage()));
-        },
-      ),
-    ],
-  );
+      );
 }
 
 class _ThirdPage extends StatefulWidget {
@@ -213,52 +213,52 @@ class _ThirdPageState extends SetState<_ThirdPage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    body: Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          const Text("You're on the Third page."),
-          const Text('You have pushed the button this many times:'),
-          Text(
-            '${bloc.data}',
-            style: Theme.of(context).textTheme.headline4,
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const Text("You're on the Third page."),
+              const Text('You have pushed the button this many times:'),
+              Text(
+                '${bloc.data}',
+                style: Theme.of(context).textTheme.headline4,
+              ),
+            ],
+          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: onPressed,
+          child: Icon(Icons.add),
+        ),
+        persistentFooterButtons: <Widget>[
+          RaisedButton(
+            child: const Text('Home Page Counter'),
+            onPressed: homeState?.onPressed,
+          ),
+          RaisedButton(
+            child: const Text('Second Page Counter'),
+            onPressed: secondState?.onPressed,
+          ),
+          RaisedButton(
+            child: const Text('Home Page New Key'),
+            onPressed: () {
+              appState?.setState(() {});
+            },
+          ),
+          RaisedButton(
+            child: const Text('Home Page'),
+            onPressed: () {
+              Navigator.popUntil(context, ModalRoute.withName('/'));
+            },
+          ),
+          RaisedButton(
+            child: const Text('Second Page'),
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
         ],
-      ),
-    ),
-    floatingActionButton: FloatingActionButton(
-      onPressed: onPressed,
-      child: Icon(Icons.add),
-    ),
-    persistentFooterButtons: <Widget>[
-      RaisedButton(
-        child: const Text('Home Page Counter'),
-        onPressed: homeState?.onPressed,
-      ),
-      RaisedButton(
-        child: const Text('Second Page Counter'),
-        onPressed: secondState?.onPressed,
-      ),
-      RaisedButton(
-        child: const Text('Home Page New Key'),
-        onPressed: () {
-          appState?.setState(() {});
-        },
-      ),
-      RaisedButton(
-        child: const Text('Home Page'),
-        onPressed: () {
-          Navigator.popUntil(context, ModalRoute.withName('/'));
-        },
-      ),
-      RaisedButton(
-        child: const Text('Second Page'),
-        onPressed: () {
-          Navigator.pop(context);
-        },
-      ),
-    ],
-  );
+      );
 }
 
 /// Explicit specify the type of State object to work with.
@@ -367,6 +367,6 @@ abstract class _CounterBloc with StateBloc {
 
   /// The generic function (Flutter API) called to manipulate the data.
   void onPressed() => setState(() {
-    _counter++;
-  });
+        _counter++;
+      });
 }
