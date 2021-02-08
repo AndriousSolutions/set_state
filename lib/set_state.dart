@@ -26,8 +26,9 @@ import 'package:flutter/material.dart';
 /// Also to store this object in a static 'States' map.
 abstract class SetState<T extends StatefulWidget> extends State<T>
     with StateSet {
-  //
-  SetState() : super() {
+  // If no declared constructor, a default constructor is called.
+  // It has no arguments and invokes the superclass's no-argument constructor.
+  SetState() {
     // Stored this object in a static map
     _addToStates();
   }
