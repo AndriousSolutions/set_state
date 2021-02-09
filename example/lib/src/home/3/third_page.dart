@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'package:set_state/set_state.dart';
 
-import 'package:example/src/1/home_page.dart';
+import 'package:example/src/home/1/home_page.dart';
 
-import 'package:example/src/2/second_page.dart';
+import 'package:example/src/home/2/second_page.dart';
 
-import 'package:example/src/3/third_bloc.dart';
+import 'package:example/src/home/3/third_bloc.dart';
 
 class ThirdPage extends StatefulWidget {
   factory ThirdPage({Key key}) => _this ??= ThirdPage._(key: key);
@@ -69,31 +69,41 @@ class _ThirdPageState extends SetState<ThirdPage> {
           child: Icon(Icons.add),
         ),
         persistentFooterButtons: <Widget>[
-          RaisedButton(
-            child: const Text('Home Page Counter'),
-            onPressed: home?.onPressed,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              RaisedButton(
+                child: const Text('Home Page Counter'),
+                onPressed: home?.onPressed,
+              ),
+              RaisedButton(
+                child: const Text('Second Page Counter'),
+                onPressed: second?.onPressed,
+              ),
+            ],
           ),
-          RaisedButton(
-            child: const Text('Second Page Counter'),
-            onPressed: second?.onPressed,
-          ),
-          RaisedButton(
-            child: const Text('Home Page New Key'),
-            onPressed: () {
-              appState?.setState(() {});
-            },
-          ),
-          RaisedButton(
-            child: const Text('Home Page'),
-            onPressed: () {
-              Navigator.popUntil(context, ModalRoute.withName('/'));
-            },
-          ),
-          RaisedButton(
-            child: const Text('Second Page'),
-            onPressed: () {
-              Navigator.pop(context);
-            },
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              RaisedButton(
+                child: const Text('Home Page New Key'),
+                onPressed: () {
+                  appState?.setState(() {});
+                },
+              ),
+              RaisedButton(
+                child: const Text('Home Page'),
+                onPressed: () {
+                  Navigator.popUntil(context, ModalRoute.withName('/'));
+                },
+              ),
+              RaisedButton(
+                child: const Text('Second Page'),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
           ),
         ],
       );

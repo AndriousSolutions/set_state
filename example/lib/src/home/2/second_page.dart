@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 
 import 'package:set_state/set_state.dart';
 
-import 'package:example/src/1/home_page.dart';
+import 'package:example/src/home/1/home_page.dart';
 
-import 'package:example/src/2/second_bloc.dart';
+import 'package:example/src/home/2/second_bloc.dart';
+
 import 'package:example/src/my_bloc.dart';
 
-import 'package:example/src/3/third_page.dart';
+import 'package:example/src/home/3/third_page.dart';
 
 /// The second page displayed in this app.
 class SecondPage extends StatefulWidget {

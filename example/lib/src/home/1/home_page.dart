@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'package:set_state/set_state.dart';
 
-import 'package:example/src/1/home_bloc.dart';
+import 'package:example/src/app/menu/app_menu.dart';
 
-import 'package:example/src/2/second_page.dart';
+import 'package:example/src/home/1/home_bloc.dart';
+
+import 'package:example/src/home/2/second_page.dart';
 
 class MyHomePage extends StatefulWidget {
   factory MyHomePage({Key key}) => _this ??= MyHomePage._(key: key);
@@ -41,7 +43,10 @@ class _MyHomePageState extends SetState<MyHomePage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: const Text('Home Page'),
+          title: const Text('Home Page: Example App 02'),
+          actions: [
+            AppMenu(),
+          ],
         ),
         body: Center(
           child: Column(
@@ -68,9 +73,11 @@ class _MyHomePageState extends SetState<MyHomePage> {
             ),
             onPressed: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => SecondPage()));
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) => SecondPage(),
+                ),
+              );
             },
           ),
         ],

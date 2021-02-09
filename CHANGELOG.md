@@ -1,3 +1,9 @@
+
+## 3.0.1+4
+ February 09, 2021
+- Introduced a popupmenu and preferences
+- Switch Apps capability
+
 ## 3.0.1+3
  February 06, 2021
 - SetState.to<_SecondPageState>(); in onPressed()

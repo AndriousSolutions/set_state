@@ -25,9 +25,8 @@ class HomePageBloc<T extends SetState> extends CounterBloc {
 // static HomePageBloc _this;
 
   // 4)
-  /// POWERFUL: You can override the instance field with a getter.
+  /// POWERFUL: You can override the instance field, state, with a getter.
   /// As a getter, you don't have to instantiate until needed (and available).
   @override
-  SetState get state => _state ??= SetState.to<T>();
-  SetState _state;
+  SetState get state => SetState.to<T>();
 }

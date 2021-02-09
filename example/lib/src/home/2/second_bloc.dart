@@ -12,7 +12,7 @@ class SecondPageBloc<T extends SetState> with StateBloc {
   }
 
   /// The 'data' is a lone integer.
-  static int _counter = 0;
+  int _counter = 0;
 
   /// Getter to safely access the data.
   int get data => _counter;
@@ -41,10 +41,9 @@ class SecondPageBloc<T extends SetState> with StateBloc {
   // SecondPageBloc._();
   // static SecondPageBloc _this;
 
-  /// POWERFUL: You can override the instance field with a getter.
+  /// POWERFUL: You can override the instance field, state, with a getter.
   /// As a getter, you don't have to instantiate until needed (and available).
 //   // 4)
 //   @override
-//   SetState get state => _state ??= SetState.to<T>();
-//   SetState _state;
+//   SetState get state => SetState.to<T>();
 }
