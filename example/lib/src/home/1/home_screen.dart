@@ -39,44 +39,44 @@ class _HomeScreenState extends State<HomeScreen> with StateSet {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(
-      title: const Text('Home Screen: Example App #1'),
-      actions: [
-        AppMenu(buttons: [secondScreen]),
-      ],
-    ),
-    body: Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          const Text('You have pushed the button this many times:'),
-          Text(
-            '$_counter',
-            style: Theme.of(context).textTheme.headline4,
+        appBar: AppBar(
+          title: const Text('Home Screen: Example App #1'),
+          actions: [
+            AppMenu(buttons: [secondScreen]),
+          ],
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const Text('You have pushed the button this many times:'),
+              Text(
+                '$_counter',
+                style: Theme.of(context).textTheme.headline4,
+              ),
+            ],
           ),
-        ],
-      ),
-    ),
-    floatingActionButton: FloatingActionButton(
+        ),
+        floatingActionButton: FloatingActionButton(
 //          onPressed: onPressed,
-      /// Wrapped in the setState() function
-      onPressed: () => setState(onPressed),
-      child: const Icon(Icons.add),
-    ),
-    persistentFooterButtons: <Widget>[
-      secondScreen,
-    ],
-  );
+          /// Wrapped in the setState() function
+          onPressed: () => setState(onPressed),
+          child: const Icon(Icons.add),
+        ),
+        persistentFooterButtons: <Widget>[
+          secondScreen,
+        ],
+      );
 
   RaisedButton get secondScreen => RaisedButton(
-    onPressed: () {
-      Navigator.push(
-        context,
-        MaterialPageRoute<void>(
-          builder: (BuildContext context) => SecondScreen(),
-        ),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute<void>(
+              builder: (BuildContext context) => SecondScreen(),
+            ),
+          );
+        },
+        child: const Text('Second Screen'),
       );
-    },
-    child: const Text('Second Screen'),
-  );
 }

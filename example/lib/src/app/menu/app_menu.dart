@@ -25,7 +25,7 @@ class AppMenu extends AppPopupMenu<String> {
     //
     List<String> items = [];
 
-    if(buttons != null) {
+    if (buttons != null) {
       for (final RaisedButton button in buttons) {
         final Text text = button.child;
         items.add(text.data);

@@ -124,6 +124,7 @@ class _SecondPageState extends State<_SecondPage> with StateSet {
   @override
   void initState() {
     super.initState();
+
     /// Supply the State object to the BLoC
     bloc = _SecondPageBloc<_SecondPageState>();
   }
@@ -164,15 +165,14 @@ class _SecondPageState extends State<_SecondPage> with StateSet {
             child: const Text('Home Page Counter'),
           ),
           RaisedButton(
-
             onPressed: () {
               Navigator.pop(context);
             },
             child: const Text(
               'Home Page',
-            ),          ),
+            ),
+          ),
           RaisedButton(
-
             onPressed: () {
               Navigator.push(
                   context,

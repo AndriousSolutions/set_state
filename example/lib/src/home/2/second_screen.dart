@@ -44,56 +44,56 @@ class _SecondScreenState extends State<SecondScreen> with StateSet {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(
-      title: const Text('Second Screen'),
-      actions: [
-        AppMenu(buttons: buttons),
-      ],
-    ),
-    body: Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          const Text('You have pushed the button this many times:'),
-          Text('$_counter', style: Theme.of(context).textTheme.headline4),
-        ],
-      ),
-    ),
-    floatingActionButton: FloatingActionButton(
-      onPressed: () {
-        setState(onPressed);
-      },
-      child: const Icon(Icons.add),
-    ),
-    persistentFooterButtons: buttons,
-  );
+        appBar: AppBar(
+          title: const Text('Second Screen'),
+          actions: [
+            AppMenu(buttons: buttons),
+          ],
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const Text('You have pushed the button this many times:'),
+              Text('$_counter', style: Theme.of(context).textTheme.headline4),
+            ],
+          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            setState(onPressed);
+          },
+          child: const Icon(Icons.add),
+        ),
+        persistentFooterButtons: buttons,
+      );
 
   RaisedButton get homeScreenCounter => RaisedButton(
-    onPressed: () {
-      final HomeScreen home = HomeScreen();
-      home?.onPressed();
+        onPressed: () {
+          final HomeScreen home = HomeScreen();
+          home?.onPressed();
 
-      /// Retrieves the State object of the specified StatefulWidget.
-      final State state = StateSet.of<HomeScreen>();
-      state?.setState(() {});
-    },
-    child: const Text('Home Counter'),
-  );
+          /// Retrieves the State object of the specified StatefulWidget.
+          final State state = StateSet.of<HomeScreen>();
+          state?.setState(() {});
+        },
+        child: const Text('Home Counter'),
+      );
 
   RaisedButton get homeScreen => RaisedButton(
-    onPressed: () {
-      Navigator.pop(context);
-    },
-    child: const Text('Home Screen'),
-  );
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        child: const Text('Home Screen'),
+      );
 
   RaisedButton get thirdScreen => RaisedButton(
-    onPressed: () {
-      Navigator.push(
-          context,
-          MaterialPageRoute<void>(
-              builder: (BuildContext context) => ThirdScreen()));
-    },
-    child: const Text('Third Screen'),
-  );
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute<void>(
+                  builder: (BuildContext context) => ThirdScreen()));
+        },
+        child: const Text('Third Screen'),
+      );
 }

@@ -111,10 +111,11 @@ class StateBLoC<T extends State> {
     // Note, this is in case State object is available at this time.
     state = StateSet.to<T>();
   }
+
   /// The Subclass should supply the appropriate SetState object
   T state;
 
-/// Not necessary. May lead to confusion
+  /// Not necessary. May lead to confusion
   // /// Explicitly assign a State object but only if 'state' is null
   // bool assignState() {
   //   var assigned = state == null;

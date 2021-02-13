@@ -55,60 +55,60 @@ class _ThirdPageState extends State<ThirdPage> with StateSet {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    body: Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          const Text("You're on the Third page."),
-          const Text('You have pushed the button this many times:'),
-          Text(
-            '${bloc.data}',
-            style: Theme.of(context).textTheme.headline4,
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const Text("You're on the Third page."),
+              const Text('You have pushed the button this many times:'),
+              Text(
+                '${bloc.data}',
+                style: Theme.of(context).textTheme.headline4,
+              ),
+            ],
+          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: onPressed,
+          child: const Icon(Icons.add),
+        ),
+        persistentFooterButtons: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              RaisedButton(
+                onPressed: home?.onPressed,
+                child: const Text('Home Page Counter'),
+              ),
+              RaisedButton(
+                onPressed: second?.onPressed,
+                child: const Text('Second Page Counter'),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              RaisedButton(
+                onPressed: () {
+                  appState?.setState(() {});
+                },
+                child: const Text('Home Page New Key'),
+              ),
+              RaisedButton(
+                onPressed: () {
+                  Navigator.popUntil(context, ModalRoute.withName('/'));
+                },
+                child: const Text('Home Page'),
+              ),
+              RaisedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('Second Page'),
+              ),
+            ],
           ),
         ],
-      ),
-    ),
-    floatingActionButton: FloatingActionButton(
-      onPressed: onPressed,
-      child: const Icon(Icons.add),
-    ),
-    persistentFooterButtons: <Widget>[
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          RaisedButton(
-            onPressed: home?.onPressed,
-            child: const Text('Home Page Counter'),
-          ),
-          RaisedButton(
-            onPressed: second?.onPressed,
-            child: const Text('Second Page Counter'),
-          ),
-        ],
-      ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          RaisedButton(
-            onPressed: () {
-              appState?.setState(() {});
-            },
-            child: const Text('Home Page New Key'),
-          ),
-          RaisedButton(
-            onPressed: () {
-              Navigator.popUntil(context, ModalRoute.withName('/'));
-            },
-            child: const Text('Home Page'),
-          ),
-          RaisedButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: const Text('Second Page'),
-          ),
-        ],
-      ),
-    ],
-  );
+      );
 }

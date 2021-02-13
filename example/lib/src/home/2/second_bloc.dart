@@ -11,6 +11,6 @@ class SecondPageBloc<T extends StateSet> extends StateBLoC<T> {
 
   /// The generic function (Flutter API) called to manipulate the data.
   void onPressed() => setState(() {
-    _counter++;
-  });
+        _counter++;
+      });
 }

@@ -52,44 +52,44 @@ class _MyHomePageState extends State<MyHomePage> with StateSet {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(
-      title: const Text('Home Page: Example App #2'),
-      actions: [
-        AppMenu(),
-      ],
-    ),
-    body: Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          const Text(
-            'You have pushed the button this many times:',
+        appBar: AppBar(
+          title: const Text('Home Page: Example App #2'),
+          actions: [
+            AppMenu(),
+          ],
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const Text(
+                'You have pushed the button this many times:',
+              ),
+              Text(
+                '${bloc.data}',
+                style: Theme.of(context).textTheme.headline4,
+              ),
+            ],
           ),
-          Text(
-            '${bloc.data}',
-            style: Theme.of(context).textTheme.headline4,
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: onPressed,
+          child: const Icon(Icons.add),
+        ),
+        persistentFooterButtons: <Widget>[
+          RaisedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) => SecondPage(),
+                ),
+              );
+            },
+            child: const Text(
+              'Second Page',
+            ),
           ),
         ],
-      ),
-    ),
-    floatingActionButton: FloatingActionButton(
-      onPressed: onPressed,
-      child: const Icon(Icons.add),
-    ),
-    persistentFooterButtons: <Widget>[
-      RaisedButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute<void>(
-              builder: (BuildContext context) => SecondPage(),
-            ),
-          );
-        },
-        child: const Text(
-          'Second Page',
-        ),
-      ),
-    ],
-  );
+      );
 }
