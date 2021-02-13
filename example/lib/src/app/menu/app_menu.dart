@@ -27,7 +27,7 @@ class AppMenu extends AppPopupMenu<String> {
 
     if(buttons != null) {
       for (final RaisedButton button in buttons) {
-        Text text = button.child;
+        final Text text = button.child;
         items.add(text.data);
         menuButtons[text.data] = button;
       }
@@ -48,27 +48,8 @@ class AppMenu extends AppPopupMenu<String> {
           Navigator.popUntil(context, ModalRoute.withName('/'));
           final MyApp home = MyApp();
           home?.switchApps();
-
-          // showDialog(
-          //   context: context,
-          //   builder: (BuildContext context) {
-          //     return AlertDialog(
-          //       title: const Text('Select'),
-          //       content: SingleChildScrollView(
-          //         child: Container(),
-          //       ),
-          //     );
-          //   },
-          // );
         }
         break;
-
-      // case constant_expr2:
-      //   {
-      //     //statements;
-      //   }
-      //   break;
-
       default:
         {
           /// Possibly a RaisedButton is selected.

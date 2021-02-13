@@ -17,39 +17,31 @@ class MyApp extends StatefulWidget {
   void switchApps() {
     /// More often than not, you'll have access to the StatefulWidget.
     /// You can use the of() function to get its State object.
-    _MyAppState appState = SetState.of<MyApp>();
+    _MyAppState appState = StateSet.of<MyApp>();
 
     /// If you know the State object's name, you use the to() function.
     /// Of course, you can only use it if the class is not private.
-    appState = SetState.to<_MyAppState>();
+    appState = StateSet.to<_MyAppState>();
 
     /// Alternatively, since this is the app's first State object
     /// you can access it as the 'root' State object.
-    appState = SetState.root;
+    appState = StateSet.root;
     appState?.switchApps();
     appState.setState(() {});
   }
 }
 
 /// Demonstrates how to explicitly 're-create' a State object
-class _MyAppState extends SetState<MyApp> {
+class _MyAppState extends State<MyApp> with StateSet {
   /// Key identifies the widget. New key? New widget!
   Key _homeKey = UniqueKey();
   bool _example01 = true;
 
   /// Toggle the bool variable
-  switchApps() {
+  void switchApps() {
     _example01 = !_example01;
     // Save the preference.
     Prefs.setBool('example', _example01);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    Prefs.getBoolF('example').then((value) {
-      _example01 = value;
-    });
   }
 
   @override
@@ -74,6 +66,7 @@ class _MyAppState extends SetState<MyApp> {
       );
 
   /// The build() function will be recalled.
+  @override
   void setState(VoidCallback fn) {
     /// Setting a 'new key' will cause the State object to be re-created.
     _homeKey = UniqueKey();

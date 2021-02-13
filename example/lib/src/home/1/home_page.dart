@@ -4,13 +4,13 @@ import 'package:set_state/set_state.dart';
 
 import 'package:example/src/app/menu/app_menu.dart';
 
-import 'package:example/src/home/1/home_bloc.dart';
+import 'package:example/src/my_bloc.dart';
 
 import 'package:example/src/home/2/second_page.dart';
 
 class MyHomePage extends StatefulWidget {
   factory MyHomePage({Key key}) => _this ??= MyHomePage._(key: key);
-  MyHomePage._({Key key}) : super(key: key);
+  const MyHomePage._({Key key}) : super(key: key);
   static MyHomePage _this;
 
   @override
@@ -18,20 +18,27 @@ class MyHomePage extends StatefulWidget {
 
   // Supply a means to access its bloc
   void onPressed() {
-    final _MyHomePageState state = SetState.to<_MyHomePageState>();
+    final _MyHomePageState state = StateSet.to<_MyHomePageState>();
     state.onPressed();
   }
 }
 
 /// The home page for this app.
-class _MyHomePageState extends SetState<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with StateSet {
+  //
   _MyHomePageState() : super() {
-    bloc = HomePageBloc<_MyHomePageState>();
+    bloc = CounterBloc<_MyHomePageState>();
   }
-  HomePageBloc bloc;
 
-  /// Supply a means to access its bloc
-  void onPressed() => bloc.onPressed();
+  CounterBloc bloc;
+
+  @override
+  void initState() {
+    super.initState();
+
+    /// Supply the State object to the BLoC
+    bloc.initState();
+  }
 
   @override
   void dispose() {
@@ -40,46 +47,49 @@ class _MyHomePageState extends SetState<MyHomePage> {
     super.dispose();
   }
 
+  /// Supply a means to access its bloc
+  void onPressed() => bloc.onPressed();
+
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: const Text('Home Page: Example App 02'),
-          actions: [
-            AppMenu(),
-          ],
-        ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const Text(
-                'You have pushed the button this many times:',
-              ),
-              Text(
-                '${bloc.data}',
-                style: Theme.of(context).textTheme.headline4,
-              ),
-            ],
+    appBar: AppBar(
+      title: const Text('Home Page: Example App #2'),
+      actions: [
+        AppMenu(),
+      ],
+    ),
+    body: Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          const Text(
+            'You have pushed the button this many times:',
           ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: onPressed,
-          child: Icon(Icons.add),
-        ),
-        persistentFooterButtons: <Widget>[
-          RaisedButton(
-            child: const Text(
-              'Second Page',
-            ),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) => SecondPage(),
-                ),
-              );
-            },
+          Text(
+            '${bloc.data}',
+            style: Theme.of(context).textTheme.headline4,
           ),
         ],
-      );
+      ),
+    ),
+    floatingActionButton: FloatingActionButton(
+      onPressed: onPressed,
+      child: const Icon(Icons.add),
+    ),
+    persistentFooterButtons: <Widget>[
+      RaisedButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute<void>(
+              builder: (BuildContext context) => SecondPage(),
+            ),
+          );
+        },
+        child: const Text(
+          'Second Page',
+        ),
+      ),
+    ],
+  );
 }

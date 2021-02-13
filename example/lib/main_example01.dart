@@ -12,13 +12,9 @@ class MyApp extends StatefulWidget {
 }
 
 /// Demonstrates how to explicitly 're-create' a State object
-class _MyAppState extends SetState<MyApp> {
+class _MyAppState extends State<MyApp> with StateSet {
   /// Key identifies the widget. New key? New widget!
   Key _homeKey = UniqueKey();
-
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) => MaterialApp(
@@ -29,6 +25,7 @@ class _MyAppState extends SetState<MyApp> {
         home: MyHomePage(key: _homeKey),
       );
 
+  @override
   void setState(VoidCallback fn) {
     _homeKey = UniqueKey();
     super.setState(fn);
@@ -37,21 +34,26 @@ class _MyAppState extends SetState<MyApp> {
 
 class MyHomePage extends StatefulWidget {
   //
-  MyHomePage({Key key}) : super(key: key);
+  const MyHomePage({Key key}) : super(key: key);
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 /// The home page for this app.
-class _MyHomePageState extends SetState<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with StateSet {
   //
   _MyHomePageState() : super() {
     bloc = _HomePageBloc<_MyHomePageState>();
   }
   _HomePageBloc bloc;
 
-  /// Supply a means to access its bloc
-  void onPressed() => bloc.onPressed();
+  @override
+  void initState() {
+    super.initState();
+
+    /// Supply the State object to the BLoC
+    bloc.initState();
+  }
 
   @override
   void dispose() {
@@ -59,6 +61,9 @@ class _MyHomePageState extends SetState<MyHomePage> {
     bloc.dispose();
     super.dispose();
   }
+
+  /// Supply a means to access its bloc
+  void onPressed() => bloc.onPressed();
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -81,19 +86,19 @@ class _MyHomePageState extends SetState<MyHomePage> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: onPressed,
-          child: Icon(Icons.add),
+          child: const Icon(Icons.add),
         ),
         persistentFooterButtons: <Widget>[
           RaisedButton(
-            child: const Text(
-              'Second Page',
-            ),
             onPressed: () {
               Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => _SecondPage()));
+                  MaterialPageRoute<void>(
+                      builder: (BuildContext context) => const _SecondPage()));
             },
+            child: const Text(
+              'Second Page',
+            ),
           ),
         ],
       );
@@ -102,21 +107,26 @@ class _MyHomePageState extends SetState<MyHomePage> {
 /// The second page displayed in this app.
 class _SecondPage extends StatefulWidget {
   //
-  _SecondPage({Key key}) : super(key: key);
+  const _SecondPage({Key key}) : super(key: key);
 
   @override
   State createState() => _SecondPageState();
 }
 
-class _SecondPageState extends SetState<_SecondPage> {
+class _SecondPageState extends State<_SecondPage> with StateSet {
   // constructor
   _SecondPageState()
-      : homeState = SetState.to<_MyHomePageState>(),
-        super() {
-    bloc = _SecondPageBloc();
-  }
+      : homeState = StateSet.to<_MyHomePageState>(),
+        super();
   _SecondPageBloc bloc;
   _MyHomePageState homeState;
+
+  @override
+  void initState() {
+    super.initState();
+    /// Supply the State object to the BLoC
+    bloc = _SecondPageBloc<_SecondPageState>();
+  }
 
   @override
   void dispose() {
@@ -146,63 +156,73 @@ class _SecondPageState extends SetState<_SecondPage> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: bloc.onPressed,
-          child: Icon(Icons.add),
+          child: const Icon(Icons.add),
         ),
         persistentFooterButtons: <Widget>[
           RaisedButton(
-            child: const Text('Home Page Counter'),
             onPressed: homeState?.onPressed,
+            child: const Text('Home Page Counter'),
           ),
           RaisedButton(
-            child: const Text(
-              'Home Page',
-            ),
+
             onPressed: () {
               Navigator.pop(context);
             },
-          ),
-          RaisedButton(
             child: const Text(
-              'Third Page',
-            ),
+              'Home Page',
+            ),          ),
+          RaisedButton(
+
             onPressed: () {
               Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => _ThirdPage()));
+                  MaterialPageRoute<void>(
+                      builder: (BuildContext context) => const _ThirdPage()));
             },
+            child: const Text(
+              'Third Page',
+            ),
           ),
         ],
       );
 }
 
 class _ThirdPage extends StatefulWidget {
-  _ThirdPage({Key key}) : super(key: key);
+  const _ThirdPage({Key key}) : super(key: key);
 
   @override
   _ThirdPageState createState() => _ThirdPageState();
 }
 
 /// Demonstrates accessing the 'first' SetState object.
-class _ThirdPageState extends SetState<_ThirdPage> {
+class _ThirdPageState extends State<_ThirdPage> with StateSet {
   _ThirdPageState()
-      : secondState = SetState.to<_SecondPageState>(),
+      : secondState = StateSet.to<_SecondPageState>(),
         super() {
     // The corresponding Bloc
-    bloc = _ThirdPageBloc();
+    bloc = _ThirdPageBloc<_ThirdPageState>();
     // Retrieve a specified State object.
-    homeState = SetState.to<_MyHomePageState>();
+    homeState = StateSet.to<_MyHomePageState>();
     // Retrieve the very 'first' State object!
-    appState = SetState.root;
+    appState = StateSet.root;
   }
   _SecondPageState secondState;
   _ThirdPageBloc bloc;
   _MyHomePageState homeState;
-  SetState appState;
+  StateSet appState;
+
+  @override
+  void initState() {
+    super.initState();
+
+    /// Supply the State object to the BLoC
+    bloc.initState();
+  }
 
   @override
   void dispose() {
     // You should clean up after yourself.
+    bloc.dispose();
     secondState = null;
     homeState = null;
     super.dispose();
@@ -228,137 +248,60 @@ class _ThirdPageState extends SetState<_ThirdPage> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: onPressed,
-          child: Icon(Icons.add),
+          child: const Icon(Icons.add),
         ),
         persistentFooterButtons: <Widget>[
           RaisedButton(
-            child: const Text('Home Page Counter'),
             onPressed: homeState?.onPressed,
+            child: const Text('Home Page Counter'),
           ),
           RaisedButton(
-            child: const Text('Second Page Counter'),
             onPressed: secondState?.onPressed,
+            child: const Text('Second Page Counter'),
           ),
           RaisedButton(
-            child: const Text('Home Page New Key'),
             onPressed: () {
               appState?.setState(() {});
             },
+            child: const Text('Home Page New Key'),
           ),
           RaisedButton(
-            child: const Text('Home Page'),
             onPressed: () {
               Navigator.popUntil(context, ModalRoute.withName('/'));
             },
+            child: const Text('Home Page'),
           ),
           RaisedButton(
-            child: const Text('Second Page'),
             onPressed: () {
               Navigator.pop(context);
             },
+            child: const Text('Second Page'),
           ),
         ],
       );
 }
 
 /// Explicit specify the type of State object to work with.
-class _HomePageBloc<T extends SetState> extends _CounterBloc {
-  // 1)
-  _HomePageBloc() {
-    state = SetState.to<T>();
-  }
-
-// // 2)
-// _HomePageBloc() : super() {
-//   state = SetState.of<_HomePageBloc>();
-// }
-
-//  // 3 )
-// factory _HomePageBloc() {
-//   _this ??= _HomePageBloc._();
-//   // Assign the 'new' State object.
-//   _this.state = SetState.of<T>();
-//   return _this;
-// }
-// _HomePageBloc._();
-// static _HomePageBloc _this;
-
-//  // 4)
-// /// POWERFUL: You can override the instance field with a getter.
-// /// As a getter, you don't have to instantiate until needed (and available).
-// @override
-//  SetState get state {
-//   if(_state == null){
-//      _state ??= SetState.of<T>();
-//   }
-//   return _state;
-//   }
-// SetState _state;
+class _HomePageBloc<T extends State> extends _CounterBloc<T> {
+  /// Demonstrating how to extend the class, _CounterBloc
 }
 
-//class _SecondPageBloc<T extends SetState> extends _CounterBloc {
-class _SecondPageBloc extends _CounterBloc {
-  // // 1)
-  // _SecondPageBloc() {
-  //   state = SetState.of<T>();
-  // }
-
-  // // 2)
-  // _SecondPageBloc() {
-  //   state = SetState.of<_SecondPageState>();
-  // }
-
-  // 3 )
-  // Retain the count even after its State is disposed!
-  factory _SecondPageBloc() {
-    _this ??= _SecondPageBloc._();
-    // Assign the 'new' State object.
-    _this.state = SetState.to<_SecondPageState>();
-    return _this;
-  }
-  _SecondPageBloc._();
-  static _SecondPageBloc _this;
-
-//  // 4)
-// /// POWERFUL: You can override the instance field with a getter.
-// /// As a getter, you don't have to instantiate until needed (and available).
-// @override
-//  SetState get state => _state ??= SetState.of<T>();
-// SetState _state;
+class _SecondPageBloc<T extends State> extends _CounterBloc<T> {
+  // // Retain the count even after its State is disposed!
+  // factory _SecondPageBloc() => _this ??= _SecondPageBloc._();
+  // _SecondPageBloc._();
+  // static _SecondPageBloc _this;
 }
 
 /// Retain a State object by knowing the type you're looking for.
-class _ThirdPageBloc extends _CounterBloc {
-  // // 1)
-  // _ThirdPageBloc() {
-  //   state = SetState.of<T>();
-  // }
-
-  // // 2)
-  // _ThirdPageBloc() {
-  //   state = SetState.of<_ThirdPageBloc>();
-  // }
-
-  //  // 3 )
-  // factory _ThirdPageBloc() {
-  //   _this ??= _ThirdPageBloc._();
-  //   // Assign the 'new' State object.
-  //   _this.state = SetState.of<_ThirdPageState>();
-  //   return _this;
-  // }
-  // _ThirdPageBloc._();
-  // static _ThirdPageBloc _this;
-
-  // 4)
+class _ThirdPageBloc<T extends State> extends _CounterBloc<T> {
   /// POWERFUL: You can override the field with a getter.
   /// As a getter, you don't have to instantiate until needed (and available).
   @override
-  SetState get state => _state ??= SetState.to<_ThirdPageState>();
-  SetState _state;
+  T get state => StateSet.to<T>();
 }
 
-/// Made abstract to 'remind the developer' to supply a SetState object.
-abstract class _CounterBloc with StateBloc {
+abstract class _CounterBloc<T extends State> extends StateBLoC<T> {
   /// The 'data' is a lone integer.
   int _counter = 0;
 

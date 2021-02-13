@@ -21,71 +21,53 @@ library set_state;
 
 import 'package:flutter/material.dart';
 
-/// Create a subclass of the State class so to call the setState function
-/// without a warning message.
-/// Also to store this object in a static 'States' map.
-abstract class SetState<T extends StatefulWidget> extends State<T>
-    with StateSet {
-  // If no declared constructor, a default constructor is called.
-  // It has no arguments and invokes the superclass's no-argument constructor.
-  SetState() {
-    // Stored this object in a static map
-    _addToStates();
-  }
+// /// Create a subclass of the State class so to call the setState function
+// /// without a warning message.
+// /// Also to store this object in a static 'States' map.
+// abstract class SetState<T extends StatefulWidget> extends State<T>
+//     with StateSet {
+//   // If no declared constructor, a default constructor is called.
+//   // It has no arguments and invokes the superclass's no-argument constructor.
+//
+//   /// Retrieve the SetState object by its StatefulWidget's type
+//   /// Returns null if not found
+//   static SetState of<T extends StatefulWidget>() => StateSet.of<T>();
+//
+//   /// Retrieve the SetState object by type
+//   /// Returns null if not found
+//   static SetState to<T extends SetState>() => StateSet.to<T>();
+//
+//   /// Retrieve the first SetState object.
+//   static SetState get root => StateSet.root;
+//
+//   /// Retrieve the latest context (i.e. the last State object's context)
+//   static BuildContext get lastContext => StateSet.lastContext;
+// }
 
-  /// Return the specific Widget of type T
-  @override
-  T get widget => super.widget;
-
-  /// Add the object's widget to a static map
-  @override
-  void initState() {
-    super.initState();
-    _addItsWidget();
-  }
-
-  /// Remove this object from the 'States' map.
-  @override
-  void dispose() {
-    _removeFromMaps();
-    super.dispose();
-  }
-
-  /// Retrieve the SetState object by its StatefulWidget's type
-  /// Returns null if not found
-  static SetState of<T extends StatefulWidget>() => StateSet.of<T>();
-
-  /// Retrieve the SetState object by type
-  /// Returns null if not found
-  static SetState to<T extends SetState>() => StateSet.to<T>();
-
-  /// Retrieve the first SetState object.
-  static SetState get root => StateSet.root;
-
-  /// Retrieve the latest context (i.e. the last State object's context)
-  static BuildContext get lastContext => StateSet.lastContext;
-}
-
+/// Manages the collection of State objects extended by the SetState class
 mixin StateSet<T extends StatefulWidget> on State<T> {
-  /// Called the State object's protected function.
-  @override
-  void setState(VoidCallback fn) => super.setState(fn);
-
   /// The static map of StateSet objects.
-  static final Map<Type, StateSet> _setStates = {};
+  static final Map<Type, State> _setStates = {};
 
   /// The static map of StatefulWidget objects.
   static final Map<Type, Type> _stateWidgets = {};
 
-  /// Add this object to the static map
-  void _addToStates() => _setStates.addAll({runtimeType: this});
+  /// Adds State object to a static map
+  /// Adds StatefulWidget to a static map
+  /// add this function to the State object's initState() function.
+  @override
+  void initState() {
+    super.initState();
+    _setStates.addAll({runtimeType: this});
+    if (widget != null) {
+      _stateWidgets.addAll({widget.runtimeType: runtimeType});
+    }
+  }
 
-  /// Add this object's Widget to the static map
-  void _addItsWidget() =>
-      _stateWidgets.addAll({this.widget.runtimeType: runtimeType});
-
-  /// Remove this object from the static Map if not already removed.
-  bool _removeFromMaps() {
+  /// Remove objects from the static Maps if not already removed.
+  /// add this function to the State object's dispose function instead
+  @override
+  void dispose() {
     // Sometimes a new State object was already created before
     // the old one was disposed.
     var remove = _setStates[runtimeType] == this;
@@ -96,19 +78,19 @@ mixin StateSet<T extends StatefulWidget> on State<T> {
         _stateWidgets.remove(state.widget?.runtimeType);
       }
     }
-    return remove;
+    super.dispose();
   }
 
-  /// Retrieve the StateSet object by its StatefulWidget
+  /// Retrieve the State object by its StatefulWidget
   /// Returns null if not found
-  static StateSet of<T extends StatefulWidget>() {
+  static State of<T extends StatefulWidget>() {
     final stateType = _stateWidgets.isEmpty ? null : _stateWidgets[_type<T>()];
     return _stateWidgets.isEmpty ? null : _setStates[stateType];
   }
 
-  /// Retrieve the StateSet object by type
+  /// Retrieve the State object by type
   /// Returns null if not found
-  static StateSet to<T extends StateSet>() =>
+  static State to<T extends State>() =>
       _setStates.isEmpty ? null : _setStates[_type<T>()];
 
   /// Retrieve the first StateSet object
@@ -124,15 +106,39 @@ mixin StateSet<T extends StatefulWidget> on State<T> {
 }
 
 /// Implement so to serve as a Business Logic Component for a SetState object.
-mixin StateBloc {
+class StateBLoC<T extends State> {
+  StateBLoC() {
+    // Note, this is in case State object is available at this time.
+    state = StateSet.to<T>();
+  }
   /// The Subclass should supply the appropriate SetState object
-  SetState state;
+  T state;
+
+/// Not necessary. May lead to confusion
+  // /// Explicitly assign a State object but only if 'state' is null
+  // bool assignState() {
+  //   var assigned = state == null;
+  //   if (assigned) {
+  //     state = StateSet.to<T>();
+  //     assigned = state != null;
+  //   }
+  //   return assigned;
+  // }
 
   /// Call your State object.
-  void setState(fn) => state?.setState(fn);
+  // ignore: invalid_use_of_protected_member
+  void setState(VoidCallback fn) => state?.setState(fn);
+
+  /// Supply the State object to this BloC object.
+  @mustCallSuper
+  void initState() {
+    state = StateSet.to<T>();
+  }
 
   /// Nullify its reference in the State object's own dispose() function.
   /// Should clean up memory.
   @mustCallSuper
-  void dispose() => state = null;
+  void dispose() {
+    state = null;
+  }
 }

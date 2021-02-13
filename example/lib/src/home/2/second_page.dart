@@ -6,14 +6,12 @@ import 'package:example/src/home/1/home_page.dart';
 
 import 'package:example/src/home/2/second_bloc.dart';
 
-import 'package:example/src/my_bloc.dart';
-
 import 'package:example/src/home/3/third_page.dart';
 
 /// The second page displayed in this app.
 class SecondPage extends StatefulWidget {
   factory SecondPage({Key key}) => _this ??= SecondPage._(key: key);
-  SecondPage._({Key key}) : super(key: key);
+  const SecondPage._({Key key}) : super(key: key);
   static SecondPage _this;
 
   @override
@@ -21,23 +19,23 @@ class SecondPage extends StatefulWidget {
 
   // Supply a means to access its bloc
   void onPressed() {
-    final _SecondPageState state = SetState.to<_SecondPageState>();
+    final _SecondPageState state = StateSet.to<_SecondPageState>();
     state.onPressed();
   }
 }
 
-class _SecondPageState extends SetState<SecondPage> {
-  _SecondPageState() : super() {
-    /// This 'local' can use the factory constructor but not in a  separate Dart file??
-    // bloc = LocalSecondPageBloc<_SecondPageState>();
-    bloc = SecondPageBloc<_SecondPageState>();
-  }
+class _SecondPageState extends State<SecondPage> with StateSet {
+  //
   SecondPageBloc bloc;
   MyHomePage home;
 
   @override
   void initState() {
     super.initState();
+
+    /// Instead of bloc.initState(), you can just instantiate in initState().
+    /// Supply the State object to the BLoC
+    bloc = SecondPageBloc<_SecondPageState>();
     home = MyHomePage();
   }
 
@@ -54,79 +52,47 @@ class _SecondPageState extends SetState<SecondPage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const Text("You're on the Second Page"),
-              const Text('You have pushed the button this many times:'),
-              Text(
-                '${bloc.data}',
-                style: Theme.of(context).textTheme.headline4,
-              ),
-            ],
-          ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: bloc.onPressed,
-          child: Icon(Icons.add),
-        ),
-        persistentFooterButtons: <Widget>[
-          RaisedButton(
-            child: const Text('Home Page Counter'),
-            onPressed: home?.onPressed,
-          ),
-          RaisedButton(
-            child: const Text(
-              'Home Page',
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          RaisedButton(
-            child: const Text(
-              'Third Page',
-            ),
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => ThirdPage()));
-            },
+    body: Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          const Text("You're on the Second Page"),
+          const Text('You have pushed the button this many times:'),
+          Text(
+            '${bloc.data}',
+            style: Theme.of(context).textTheme.headline4,
           ),
         ],
-      );
-}
-
-/// This seems to reliably works every time.
-class LocalSecondPageBloc extends CounterBloc {
-  // // 1)
-  // LocalSecondPageBloc() {
-  //   state = SetState.to<T>();
-  // }
-
-  // // 2)
-  // // With a factory, retains the count even after its State is disposed!
-  // factory LocalSecondPageBloc() => _this ??= SecondPageBloc._();
-  // LocalSecondPageBloc._();
-  // static LocalSecondPageBloc _this;
-
-  // 3 )
-  // Retain the count even after its State is disposed!
-  factory LocalSecondPageBloc() {
-    _this ??= LocalSecondPageBloc._();
-    // Assign the 'new' State object.
-    _this.state = SetState.to<_SecondPageState>();
-    return _this;
-  }
-  LocalSecondPageBloc._();
-  static LocalSecondPageBloc _this;
-
-//  // 4)
-// /// POWERFUL: You can override the instance field with a getter.
-// /// As a getter, you don't have to instantiate until needed (and available).
-//   @override
-//   SetState get state => _state ??= SetState.to<T>();
-//   SetState _state;
+      ),
+    ),
+    floatingActionButton: FloatingActionButton(
+      onPressed: bloc.onPressed,
+      child: const Icon(Icons.add),
+    ),
+    persistentFooterButtons: <Widget>[
+      RaisedButton(
+        onPressed: home?.onPressed,
+        child: const Text('Home Page Counter'),
+      ),
+      RaisedButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        child: const Text(
+          'Home Page',
+        ),
+      ),
+      RaisedButton(
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute<void>(
+                  builder: (BuildContext context) => ThirdPage()));
+        },
+        child: const Text(
+          'Third Page',
+        ),
+      ),
+    ],
+  );
 }

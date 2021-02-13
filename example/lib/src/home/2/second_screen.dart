@@ -10,26 +10,27 @@ import 'package:example/src/app/menu/app_menu.dart';
 
 /// The second page displayed in this app.
 class SecondScreen extends StatefulWidget {
+  /// Singleton pattern. No need for multiple instances.
   factory SecondScreen({Key key}) => _this ??= SecondScreen._(key: key);
-  SecondScreen._({Key key}) : super(key: key);
+  const SecondScreen._({Key key}) : super(key: key);
   static SecondScreen _this;
 
+  /// Access to the State object's functionality.
   void onPressed() {
-    final _SecondPageState state = SetState.to<_SecondPageState>();
-    state.onPressed();
+    /// Always retrieve the 'latest' State object
+    /// If a new Key was supplied to the Widget, it's recreate the State object.
+    final _SecondScreenState state = StateSet.to<_SecondScreenState>();
+    state?.onPressed();
   }
 
   @override
-  State createState() => _SecondPageState();
+  State createState() => _SecondScreenState();
 }
 
-class _SecondPageState extends SetState<SecondScreen> {
-  _SecondPageState() : super();
-
+class _SecondScreenState extends State<SecondScreen> with StateSet {
   /// A mutable data field.
   int _counter = 0;
 
-  /// Supply a means to access its bloc
   void onPressed() => _counter++;
 
   /// Raised buttons used in the popmenu and the screen itself.
@@ -43,61 +44,56 @@ class _SecondPageState extends SetState<SecondScreen> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: const Text('Second Screen'),
-          actions: [
-            AppMenu(buttons: buttons),
-          ],
-        ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const Text('You have pushed the button this many times:'),
-              Text(
-                '$_counter',
-                style: Theme.of(context).textTheme.headline4,
-              ),
-            ],
-          ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => setState(onPressed),
-          child: Icon(Icons.add),
-        ),
-        persistentFooterButtons: buttons,
-      );
+    appBar: AppBar(
+      title: const Text('Second Screen'),
+      actions: [
+        AppMenu(buttons: buttons),
+      ],
+    ),
+    body: Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          const Text('You have pushed the button this many times:'),
+          Text('$_counter', style: Theme.of(context).textTheme.headline4),
+        ],
+      ),
+    ),
+    floatingActionButton: FloatingActionButton(
+      onPressed: () {
+        setState(onPressed);
+      },
+      child: const Icon(Icons.add),
+    ),
+    persistentFooterButtons: buttons,
+  );
 
   RaisedButton get homeScreenCounter => RaisedButton(
-        child: const Text(
-          'Home Counter',
-        ),
-        onPressed: () {
-          final HomeScreen home = HomeScreen();
-          home?.onPressed();
-          final State state = SetState.of<HomeScreen>();
-          state?.setState(() {});
-        },
-      );
+    onPressed: () {
+      final HomeScreen home = HomeScreen();
+      home?.onPressed();
+
+      /// Retrieves the State object of the specified StatefulWidget.
+      final State state = StateSet.of<HomeScreen>();
+      state?.setState(() {});
+    },
+    child: const Text('Home Counter'),
+  );
 
   RaisedButton get homeScreen => RaisedButton(
-        child: const Text(
-          'Home Screen',
-        ),
-        onPressed: () {
-          Navigator.pop(context);
-        },
-      );
+    onPressed: () {
+      Navigator.pop(context);
+    },
+    child: const Text('Home Screen'),
+  );
 
   RaisedButton get thirdScreen => RaisedButton(
-        child: const Text(
-          'Third Screen',
-        ),
-        onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (BuildContext context) => ThirdScreen()));
-        },
-      );
+    onPressed: () {
+      Navigator.push(
+          context,
+          MaterialPageRoute<void>(
+              builder: (BuildContext context) => ThirdScreen()));
+    },
+    child: const Text('Third Screen'),
+  );
 }

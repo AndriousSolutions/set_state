@@ -1,4 +1,8 @@
 
+## 4.0.0
+ February 10, 2021
+- Replaced class SetState with mixin StateSet
+
 ## 3.0.1+4
  February 09, 2021
 - Introduced a popupmenu and preferences
